@@ -4,16 +4,16 @@ public enum Profiles {
 
 	ADMIN(0,"ROLE_ADMIN"), CLAINT(1,"ROLE_CLAINT"), TECHNICIAN(3,"ROLE_TECHNICIAN");
 	
-	private Integer perfilId;
+	private Integer profileId;
 	private String description;
 	
 	private Profiles(Integer perfilId, String description) {
-		this.perfilId = perfilId;
+		this.profileId = perfilId;
 		this.description = description;
 	}
 
-	public Integer getPerfilId() {
-		return perfilId;
+	public Integer getProfileId() {
+		return profileId;
 	}
 
 	public String getDescription() {
@@ -25,7 +25,7 @@ public enum Profiles {
 			return null;
 		}
 		for(Profiles profiles : Profiles.values()) {
-			if(id.equals(profiles.getPerfilId())) {
+			if(id.equals(profiles.getProfileId())) {
 				return profiles;
 			}
 		}
