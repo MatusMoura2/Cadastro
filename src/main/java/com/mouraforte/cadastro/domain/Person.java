@@ -1,22 +1,44 @@
 package com.mouraforte.cadastro.domain;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.mouraforte.cadastro.domain.enums.Profiles;
 
-public abstract class Person {
+import jakarta.persistence.CollectionTable;
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
+@Entity(name = "TB_pessoa")
+public abstract class Person implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	protected UUID id;
 	protected String name;
+	
+	@Column(unique = true)
 	protected String cpf;
 	protected String email;
 	protected String password;
 
+	@ElementCollection(fetch = FetchType.EAGER)
+	@CollectionTable(name = "PERFIS")
 	protected Set<Integer> profiles = new HashSet<>();
+	
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	protected LocalDate creationDate = LocalDate.now();
 
 	public Person() {
