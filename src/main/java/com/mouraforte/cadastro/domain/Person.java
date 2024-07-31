@@ -26,7 +26,7 @@ public abstract class Person implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	protected UUID id;
+	protected Long id;
 	protected String name;
 	
 	@Column(unique = true)
@@ -46,7 +46,7 @@ public abstract class Person implements Serializable{
 		addProfiles(Profiles.CLAINT);
 	}
 
-	public Person(UUID id, String name, String cpf, String email, String password) {
+	public Person(Long id, String name, String cpf, String email, String password) {
 		super();
 		addProfiles(Profiles.CLAINT);
 		this.id = id;
@@ -58,11 +58,11 @@ public abstract class Person implements Serializable{
 
 	
 
-	public UUID getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(UUID id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

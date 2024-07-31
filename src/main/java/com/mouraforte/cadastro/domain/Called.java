@@ -2,7 +2,6 @@ package com.mouraforte.cadastro.domain;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.mouraforte.cadastro.domain.enums.Priority;
@@ -21,8 +20,8 @@ public class Called implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private UUID id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private LocalDate openDate = LocalDate.now();
@@ -32,6 +31,7 @@ public class Called implements Serializable{
 	private Priority priority;
 	private Status status;
 	private String comments;
+	private String name;
 	
 	@ManyToOne
 	@JoinColumn(name = "tecnico_id")
@@ -46,23 +46,24 @@ public class Called implements Serializable{
 	}
 
 
-	public Called(UUID id, Priority priority, Status status, String comments, Technician technician, Client client) {
+	public Called(Long id, Priority priority, Status status, String comments,String name, Technician technician, Client client) {
 		super();
 		this.id = id;
 		this.priority = priority;
 		this.status = status;
 		this.comments = comments;
+		this.name = name;
 		this.technician = technician;
 		this.client = client;
 	}
 
 
-	public UUID getId() {
+	public Long getId() {
 		return id;
 	}
 
 
-	public void setId(UUID id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -114,6 +115,16 @@ public class Called implements Serializable{
 
 	public void setComments(String comments) {
 		this.comments = comments;
+	}
+
+
+	public String getName() {
+		return name;
+	}
+
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 

@@ -2,7 +2,6 @@ package com.mouraforte.cadastro.domain;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import com.mouraforte.cadastro.domain.enums.Profiles;
 
@@ -22,7 +21,7 @@ public class Client extends Person {
 		addProfiles(Profiles.CLAINT);
 	}
 
-	public Client(UUID id, String name, String cpf, String email, String password) {
+	public Client(Long id, String name, String cpf, String email, String password) {
 		super(id, name, cpf, email, password);
 		addProfiles(Profiles.CLAINT);
 	}
