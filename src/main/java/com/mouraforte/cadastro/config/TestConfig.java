@@ -6,10 +6,17 @@ import org.springframework.context.annotation.Profile;
 
 import com.mouraforte.cadastro.service.DBService;
 
+import jakarta.annotation.PostConstruct;
+
 @Configuration
 @Profile("test")
 public class TestConfig {
 
 	@Autowired
 	private DBService dbService;
+	
+	@PostConstruct
+	public void instanciaDB() {
+		this.dbService.startDB();
+	}
 }
