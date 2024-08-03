@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mouraforte.cadastro.domain.Technician;
+import com.mouraforte.cadastro.domain.dtos.TechnicianDTO;
 import com.mouraforte.cadastro.service.TechnicianService;
 
 @RestController
@@ -18,8 +19,8 @@ public class TechnicianResource {
 	private TechnicianService technicianService;
 	
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Technician> findById(@PathVariable Long id){
+	public ResponseEntity<TechnicianDTO> findById(@PathVariable Long id){
 		Technician obj = this.technicianService.findById(id);
-		return ResponseEntity.ok().body(obj);
+		return ResponseEntity.ok().body(new TechnicianDTO(obj));
 	}
 }
