@@ -18,6 +18,8 @@ import com.mouraforte.cadastro.domain.Technician;
 import com.mouraforte.cadastro.domain.dtos.TechnicianDTO;
 import com.mouraforte.cadastro.service.TechnicianService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping(value = "/technician")
 public class TechnicianResource {
@@ -39,7 +41,7 @@ public class TechnicianResource {
 	}
 	
 	@PostMapping
-	public ResponseEntity<TechnicianDTO> createTechnician(@RequestBody TechnicianDTO technicianDTO){
+	public ResponseEntity<TechnicianDTO> createTechnician(@Valid @RequestBody TechnicianDTO technicianDTO){
 		Technician technician = technicianService.create(technicianDTO);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(technician.getId()).toUri();
 		return ResponseEntity.created(uri).build();

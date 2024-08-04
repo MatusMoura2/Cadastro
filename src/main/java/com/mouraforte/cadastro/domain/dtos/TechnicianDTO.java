@@ -10,14 +10,20 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.mouraforte.cadastro.domain.Technician;
 import com.mouraforte.cadastro.domain.enums.Profiles;
 
+import jakarta.validation.constraints.NotNull;
+
 public class TechnicianDTO implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
 	protected Long id;
+	@NotNull(message = "Campo NOME é obrigatorio")
 	protected String name;
+	@NotNull(message = "Campo CPF é obrigatorio")
 	protected String cpf;
+	@NotNull(message = "Campo EMAIL obrigatorio")
 	protected String email;
+	@NotNull(message = "Campo SENHA obrigatorio")
 	protected String password;
 	protected Set<Integer> profiles = new HashSet<>();
 
