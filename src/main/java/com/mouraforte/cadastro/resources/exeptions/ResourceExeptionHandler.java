@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.mouraforte.cadastro.service.exceptions.DataIntegrityViolationException;
 import com.mouraforte.cadastro.service.exceptions.ObjectNotFoundExeception;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,6 +21,15 @@ public class ResourceExeptionHandler {
 				"Object Not Found", onfex.getMessage(), exceptionRequest.getRequestURI());
 
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+	}
+	@ExceptionHandler(DataIntegrityViolationException.class)
+	public ResponseEntity<StandardError> dataIntegrityViolationException(DataIntegrityViolationException divex,
+			HttpServletRequest exceptionRequest) {
+
+		StandardError error = new StandardError(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(),
+				"data breach", divex.getMessage(), exceptionRequest.getRequestURI());
+
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
 	}
 
 }
