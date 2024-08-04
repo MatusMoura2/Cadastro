@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.mouraforte.cadastro.domain.Technician;
 import com.mouraforte.cadastro.repository.TechnicianRepository;
+import com.mouraforte.cadastro.service.exceptions.ObjectNotFoundExeception;
 
 @Service
 public class TechnicianService {
@@ -16,6 +17,6 @@ public class TechnicianService {
 	
 	public Technician findById(Long id) {
 		Optional<Technician> obj = technicianRepository.findById(id);
-		return obj.orElse(null);
+		return obj.orElseThrow(() -> new ObjectNotFoundExeception("Objeto não encontrado. Id: "+ id));
 	}
 }

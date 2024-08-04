@@ -29,7 +29,7 @@ public class DBService {
 		Technician tec0 = new Technician(null, "Doni Moura", "00000000000", "doni.m.test@test.com", "123**");
 		tec0.addProfiles(Profiles.ADMIN);
 		Technician tec1 = new Technician(null, "Beatriz Moura", "11111111111", "bia_m.test@test.com", "melancia123");
-		tec1.addProfiles(Profiles.CLAINT);
+		tec1.addProfiles(Profiles.ADMIN);
 		Technician tec2 = new Technician(null, "Luna Moura", "22222222222", "lunam.test@test.com", "m2m3m4m5m6");
 		tec2.addProfiles(Profiles.TECHNICIAN);
 
