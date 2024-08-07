@@ -14,17 +14,19 @@ import com.mouraforte.cadastro.repository.TechnicianRepository;
 import com.mouraforte.cadastro.service.exceptions.DataIntegrityViolationException;
 import com.mouraforte.cadastro.service.exceptions.ObjectNotFoundExeception;
 
+import jakarta.validation.Valid;
+
 @Service
 public class TechnicianService {
-		
+
 	@Autowired
 	private TechnicianRepository technicianRepository;
 	@Autowired
 	private PersonRepository personRepository;
-	
+
 	public Technician findById(Long id) {
 		Optional<Technician> obj = technicianRepository.findById(id);
-		return obj.orElseThrow(() -> new ObjectNotFoundExeception("Objeto não encontrado. Id: "+ id));
+		return obj.orElseThrow(() -> new ObjectNotFoundExeception("Objeto não encontrado. Id: " + id));
 	}
 
 	public List<Technician> findAll() {
@@ -38,13 +40,30 @@ public class TechnicianService {
 		return technicianRepository.save(newTechnician);
 	}
 
+	public Technician update(Long id, @Valid TechnicianDTO technicianDTO) {
+		technicianDTO.setId(id);
+		Technician technician = findById(id);
+		validatorPerCPFendEmail(technicianDTO);
+		technician = new Technician(technicianDTO);
+		return technicianRepository.save(technician);
+	}
+
+	public void delete(Long id) {
+		Technician technician = findById(id);
+		if(technician.getCalleds().size() > 0) {
+			throw new DataIntegrityViolationException("Tecnico possue ordens de servico e não pode ser deletado!");
+		}else {
+			technicianRepository.deleteById(id);
+		}
+	}
+
 	private void validatorPerCPFendEmail(TechnicianDTO technicianDTO) {
 		Optional<Person> optionalPerson = personRepository.findByCpf(technicianDTO.getCpf());
-		if(optionalPerson.isPresent() && optionalPerson.get().getId() != technicianDTO.getId()) {
+		if (optionalPerson.isPresent() && optionalPerson.get().getId() != technicianDTO.getId()) {
 			throw new DataIntegrityViolationException("cpf já cadasreado no sistema");
 		}
 		optionalPerson = personRepository.findByEmail(technicianDTO.getEmail());
-		if(optionalPerson.isPresent() && optionalPerson.get().getId() != technicianDTO.getId()) {
+		if (optionalPerson.isPresent() && optionalPerson.get().getId() != technicianDTO.getId()) {
 			throw new DataIntegrityViolationException("e-mail já cadasreado no sistema");
 		}
 	}

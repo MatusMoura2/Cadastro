@@ -4,8 +4,9 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 import java.util.stream.Collectors;
+
+import org.hibernate.validator.constraints.br.CPF;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.mouraforte.cadastro.domain.enums.Profiles;
@@ -29,6 +30,7 @@ public abstract class Person implements Serializable{
 	protected Long id;
 	protected String name;
 	
+	@CPF
 	@Column(unique = true)
 	protected String cpf;
 	protected String email;

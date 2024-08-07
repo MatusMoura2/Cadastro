@@ -6,9 +6,11 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,27 +25,41 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping(value = "/technician")
 public class TechnicianResource {
-	
+
 	@Autowired
 	private TechnicianService technicianService;
-	
+
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<TechnicianDTO> findById(@PathVariable Long id){
+	public ResponseEntity<TechnicianDTO> findById(@PathVariable Long id) {
 		Technician obj = this.technicianService.findById(id);
 		return ResponseEntity.ok().body(new TechnicianDTO(obj));
 	}
-	
+
 	@GetMapping
-	public ResponseEntity<List<TechnicianDTO>> findAll(){
+	public ResponseEntity<List<TechnicianDTO>> findAll() {
 		List<Technician> technicians = technicianService.findAll();
-		List<TechnicianDTO> technicianDTOs = technicians.stream().map(obj -> new TechnicianDTO()).collect(Collectors.toList());
+		List<TechnicianDTO> technicianDTOs = technicians.stream().map(obj -> new TechnicianDTO())
+				.collect(Collectors.toList());
 		return ResponseEntity.ok().body(technicianDTOs);
 	}
-	
+
 	@PostMapping
-	public ResponseEntity<TechnicianDTO> createTechnician(@Valid @RequestBody TechnicianDTO technicianDTO){
+	public ResponseEntity<TechnicianDTO> createTechnician(@Valid @RequestBody TechnicianDTO technicianDTO) {
 		Technician technician = technicianService.create(technicianDTO);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(technician.getId()).toUri();
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(technician.getId())
+				.toUri();
 		return ResponseEntity.created(uri).build();
+	}
+
+	@PutMapping(value = "/{id}")
+	public ResponseEntity<TechnicianDTO> update(@PathVariable Long id, @Valid @RequestBody TechnicianDTO technicianDTO){
+		Technician technician = technicianService.update(id, technicianDTO);
+		return ResponseEntity.ok().body(new TechnicianDTO(technician));
+	}
+	
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<TechnicianDTO> delete(@PathVariable Long id){
+		technicianService.delete(id);
+		return ResponseEntity.noContent().build();
 	}
 }
