@@ -1,5 +1,8 @@
 package com.mouraforte.cadastro.resources;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +25,13 @@ public class CalledResource {
 	public ResponseEntity<CalledDTO> findBYid(@PathVariable Long id) {
 		Called called = calledService.findById(id);
 		return ResponseEntity.ok().body(new CalledDTO(called));
+	}
+
+	@GetMapping
+	public ResponseEntity<List<CalledDTO>> findAll(){
+		List<Called> calledList = calledService.findAll();
+		List<CalledDTO> calledDTOList = calledList.stream().map(obj -> new CalledDTO(obj)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(calledDTOList);
 	}
 
 }

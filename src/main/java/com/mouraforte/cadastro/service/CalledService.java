@@ -1,5 +1,6 @@
 package com.mouraforte.cadastro.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,10 @@ public class CalledService {
 
 	public Called findById(Long id) {
 		Optional<Called> calleds = calledRepository.findById(id);
-		return calleds.orElseThrow(()-> new ObjectNotFoundExeception("Objeto não encontrado!" + id));
+		return calleds.orElseThrow(() -> new ObjectNotFoundExeception("Objeto não encontrado!" + id));
+	}
+
+	public List<Called> findAll() {
+		return calledRepository.findAll();
 	}
 }
