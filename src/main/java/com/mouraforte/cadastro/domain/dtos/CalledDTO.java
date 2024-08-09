@@ -6,7 +6,9 @@ import java.time.LocalDate;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.mouraforte.cadastro.domain.Called;
 
-public class CalledDTO implements Serializable{
+import jakarta.validation.constraints.NotNull;
+
+public class CalledDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -15,11 +17,17 @@ public class CalledDTO implements Serializable{
 	private LocalDate openDate = LocalDate.now();
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private LocalDate closedDate;
+	@NotNull(message = "O campo PRIORIDADE é obrigatorio")
 	private Integer priority;
+	@NotNull(message = "O campo STATUS é obrigatorio")
 	private Integer status;
+	@NotNull(message = "O campo OBSERVACÕES é obrigatorio")
 	private String comments;
+	@NotNull(message = "O campo TITULO é obrigatorio")
 	private String name;
+	@NotNull(message = "O campo TECNICO é obrigatorio")
 	private Long technician;
+	@NotNull(message = "O campo CLIENTE e obrigatorio")
 	private Long client;
 	private String nameTechnician;
 	private String nameClient;
@@ -134,5 +142,5 @@ public class CalledDTO implements Serializable{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
+
 }
