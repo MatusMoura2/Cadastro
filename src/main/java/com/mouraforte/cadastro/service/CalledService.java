@@ -1,5 +1,6 @@
 package com.mouraforte.cadastro.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,6 +40,13 @@ public class CalledService {
 	public Called create(@Valid CalledDTO calledDTO) {
 		return calledRepository.save(newCalled(calledDTO));
 	}
+	
+	public Called update(Long id, @Valid CalledDTO calledDTO) {
+		calledDTO.setId(id);
+		Called calledOBJ = findById(id);
+		calledOBJ = newCalled(calledDTO);
+		return calledRepository.save(calledOBJ);
+	}
 
 	private Called newCalled(CalledDTO calledDTO) {
 		Technician technician = technicianService.findById(calledDTO.getTechnician());
@@ -47,6 +55,10 @@ public class CalledService {
 		Called called = new Called();
 		if (calledDTO.getId() != null) {
 			called.setId(calledDTO.getId());
+		}
+		
+		if (calledDTO.getStatus().equals(2)) {
+			called.setClosedDate(LocalDate.now());
 		}
 
 		called.setTechnician(technician);
