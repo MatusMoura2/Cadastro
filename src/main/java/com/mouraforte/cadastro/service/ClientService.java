@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.mouraforte.cadastro.domain.Client;
@@ -23,6 +24,8 @@ public class ClientService {
 	private ClientRepository ClientRepository;
 	@Autowired
 	private PersonRepository personRepository;
+	@Autowired
+	private BCryptPasswordEncoder encoder;
 
 	public Client findById(Long id) {
 		Optional<Client> obj = ClientRepository.findById(id);
@@ -33,37 +36,38 @@ public class ClientService {
 		return ClientRepository.findAll();
 	}
 
-	public Client create(ClientDTO ClientDTO) {
-		ClientDTO.setId(null);
-		validatorPerCPFendEmail(ClientDTO);
-		Client newClient = new Client(ClientDTO);
+	public Client create(ClientDTO clientDTO) {
+		clientDTO.setId(null);
+		clientDTO.setPassword(encoder.encode(clientDTO.getPassword()));
+		validatorPerCPFendEmail(clientDTO);
+		Client newClient = new Client(clientDTO);
 		return ClientRepository.save(newClient);
 	}
 
-	public Client update(Long id, @Valid ClientDTO ClientDTO) {
-		ClientDTO.setId(id);
+	public Client update(Long id, @Valid ClientDTO clientDTO) {
+		clientDTO.setId(id);
 		Client Client = findById(id);
-		validatorPerCPFendEmail(ClientDTO);
-		Client = new Client(ClientDTO);
+		validatorPerCPFendEmail(clientDTO);
+		Client = new Client(clientDTO);
 		return ClientRepository.save(Client);
 	}
 
 	public void delete(Long id) {
 		Client Client = findById(id);
-		if(Client.getCalleds().size() > 0) {
+		if (Client.getCalleds().size() > 0) {
 			throw new DataIntegrityViolationException("Tecnico possue ordens de servico e não pode ser deletado!");
-		}else {
+		} else {
 			ClientRepository.deleteById(id);
 		}
 	}
 
-	private void validatorPerCPFendEmail(ClientDTO ClientDTO) {
-		Optional<Person> optionalPerson = personRepository.findByCpf(ClientDTO.getCpf());
-		if (optionalPerson.isPresent() && optionalPerson.get().getId() != ClientDTO.getId()) {
+	private void validatorPerCPFendEmail(ClientDTO clientDTO) {
+		Optional<Person> optionalPerson = personRepository.findByCpf(clientDTO.getCpf());
+		if (optionalPerson.isPresent() && optionalPerson.get().getId() != clientDTO.getId()) {
 			throw new DataIntegrityViolationException("cpf já cadasreado no sistema");
 		}
-		optionalPerson = personRepository.findByEmail(ClientDTO.getEmail());
-		if (optionalPerson.isPresent() && optionalPerson.get().getId() != ClientDTO.getId()) {
+		optionalPerson = personRepository.findByEmail(clientDTO.getEmail());
+		if (optionalPerson.isPresent() && optionalPerson.get().getId() != clientDTO.getId()) {
 			throw new DataIntegrityViolationException("e-mail já cadasreado no sistema");
 		}
 	}

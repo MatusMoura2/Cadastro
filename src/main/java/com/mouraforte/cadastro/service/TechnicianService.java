@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.mouraforte.cadastro.domain.Person;
@@ -23,6 +24,8 @@ public class TechnicianService {
 	private TechnicianRepository technicianRepository;
 	@Autowired
 	private PersonRepository personRepository;
+	@Autowired
+	private BCryptPasswordEncoder encoder;
 
 	public Technician findById(Long id) {
 		Optional<Technician> obj = technicianRepository.findById(id);
@@ -35,6 +38,7 @@ public class TechnicianService {
 
 	public Technician create(TechnicianDTO technicianDTO) {
 		technicianDTO.setId(null);
+		technicianDTO.setPassword(encoder.encode(technicianDTO.getPassword()));
 		validatorPerCPFendEmail(technicianDTO);
 		Technician newTechnician = new Technician(technicianDTO);
 		return technicianRepository.save(newTechnician);

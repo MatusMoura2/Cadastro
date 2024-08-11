@@ -3,6 +3,7 @@ package com.mouraforte.cadastro.service;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.mouraforte.cadastro.domain.Called;
@@ -24,19 +25,22 @@ public class DBService {
 	private ClientRepository clientRepository;
 	@Autowired
 	private CalledRepository calledRepository;
+	@Autowired
+	private BCryptPasswordEncoder encoder;
 
 	public void startDB() {
-		Technician tec0 = new Technician(null, "Doni Moura", "432.865.860-30", "doni.m.test@test.com", "123**");
+		
+		Technician tec0 = new Technician(null, "Doni Moura", "432.865.860-30", "doni.m.test@test.com", encoder.encode("123**"));
 		tec0.addProfiles(Profiles.ADMIN);
-		Technician tec1 = new Technician(null, "Beatriz Moura", "098.700.540-56", "bia_m.test@test.com", "melancia123");
+		Technician tec1 = new Technician(null, "Beatriz Moura", "098.700.540-56", "bia_m.test@test.com", encoder.encode("321654"));
 		tec1.addProfiles(Profiles.ADMIN);
-		Technician tec2 = new Technician(null, "Luna Moura", "448.800.670-16", "lunam.test@test.com", "m2m3m4m5m6");
+		Technician tec2 = new Technician(null, "Luna Moura", "448.800.670-16", "lunam.test@test.com", encoder.encode("melamcia123467"));
 		tec2.addProfiles(Profiles.TECHNICIAN);
-		Technician tec3 = new Technician(null, "Ramon Moura", "550.482.150-95", "r.test@test.com", "vaquejada");
+		Technician tec3 = new Technician(null, "Ramon Moura", "550.482.150-95", "r.test@test.com", encoder.encode("ATUSM"));
 
-		Client cli0 = new Client(null, "Donizete Moura", "048.022.490-04", "test.zete@test.com", "botafogo");
-		Client cli1 = new Client(null, "Alai Moura", "169.238.320-55", "test.lai@test.com", "deuséamor");
-		Client cli2 = new Client(null, "Gonalves Moura", "332.277.880-04", "test.go@test.com", "ccb");
+		Client cli0 = new Client(null, "Donizete Moura", "048.022.490-04", "test.zete@test.com", encoder.encode("botafogo"));
+		Client cli1 = new Client(null, "Alai Moura", "169.238.320-55", "test.lai@test.com", encoder.encode("deuseamor"));
+		Client cli2 = new Client(null, "Gonalves Moura", "332.277.880-04", "test.go@test.com", encoder.encode("Aleluia"));
 
 		Called called0 = new Called(null, Priority.HIGH, Status.PROGRESS, "Chamado Test", "teste", tec0, cli0);
 		Called called1 = new Called(null, Priority.LOW, Status.OPEN, "Chamado Test", "teste", tec1, cli1);
