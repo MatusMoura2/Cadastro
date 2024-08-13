@@ -41,13 +41,14 @@ public class DBService {
 		Client cli0 = new Client(null, "Donizete Moura", "048.022.490-04", "test.zete@test.com", encoder.encode("botafogo"));
 		Client cli1 = new Client(null, "Alai Moura", "169.238.320-55", "test.lai@test.com", encoder.encode("deuseamor"));
 		Client cli2 = new Client(null, "Gonalves Moura", "332.277.880-04", "test.go@test.com", encoder.encode("Aleluia"));
+		Client cli3 = new Client(null, "George Moura", "717.312.200-73", "test.go@test.com",  encoder.encode("123456789"));
 
 		Called called0 = new Called(null, Priority.HIGH, Status.PROGRESS, "Chamado Test", "teste", tec0, cli0);
 		Called called1 = new Called(null, Priority.LOW, Status.OPEN, "Chamado Test", "teste", tec1, cli1);
 		Called called2 = new Called(null, Priority.MEDIUM, Status.CLOSED, "Chamado Test", "teste", tec2, cli2);
 
 		technicianRepository.saveAll(Arrays.asList(tec0,tec1,tec2,tec3));
-		clientRepository.saveAll(Arrays.asList(cli0,cli1,cli2));
+		clientRepository.saveAll(Arrays.asList(cli0,cli1,cli2,cli3));
 		calledRepository.saveAll(Arrays.asList(called0,called1,called2));
 	}
 }
