@@ -45,11 +45,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
 	}
 
-	/*
-	 * =============================================================================
-	 * ============================================================== Caso a
-	 * autenticação tenha sucesso!
-	 */ // =======================================================================================================================================
+	// Caso aautenticação tenha sucesso!
 	@Override
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
 			Authentication authResult) throws IOException, ServletException {
@@ -59,11 +55,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		response.setHeader("Authorization", "Bearer" + token);
 	}
 
-	/*
-	 * =============================================================================
-	 * ============================================================== Caso a
-	 * autenticação não tenha sucesso!
-	 */ // =======================================================================================================================================
+	 // Caso a autenticação não tenha sucesso!
 	@Override
 	protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException failed) throws IOException, ServletException {
@@ -74,12 +66,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
 	private CharSequence json() {
 		long date = new Date().getTime();
-		return
-				"{"
-				+ "\"timestamp\": " + date + ", " 
-				+ "\"status\": 401, "
-				+ "\"error\": \"Não autorizado\", "
-				+ "\"message\": \"Email ou senha inválidos\", "
-				+ "\"path\": \"/login\"}";
+		return "{" + "\"timestamp\": " + date + ", " + "\"status\": 401, " + "\"error\": \"Não autorizado\", "
+				+ "\"message\": \"Email ou senha inválidos\", " + "\"path\": \"/login\"}";
 	}
 }
